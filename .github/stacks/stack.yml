@@ -1,4 +1,4 @@
-version: 0.1.1                                          # stack schema version 0.1.0 (latest)
+version: 0.1.0                                          # stack schema version 0.1.0 (latest)
 
 name: Deploy nextJs to GitHub pages - 3           # stack name 
 description: Deploy Next JS site to Github Pages       # stack description
