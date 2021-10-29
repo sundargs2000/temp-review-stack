@@ -6,6 +6,6 @@ inputs:
 
 configs:
   branches:
-    - name: ${{inputs.str1}}
+    - name: ok
       parameters:
         enforce-admins: ${{inputs.str1}}
