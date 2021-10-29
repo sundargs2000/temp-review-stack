@@ -28,7 +28,7 @@ configs:                                               # stack config applied to
        description: 'Setup your Nextjs site in Github Pages'
        secrets: 
          - name: GH_PAT
-           value: ${{inputs.GITHUB_PAT}}
+           value: ${{inputs.GITHUB_PAT1}}
        topics:                                            # repository tags for new repository
        - nextjs
        - github-pages
