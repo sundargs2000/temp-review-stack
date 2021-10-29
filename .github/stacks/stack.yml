@@ -1,57 +1,104 @@
-version: 0.1.0                                          # stack schema version 0.1.0 (latest)
+name: test stack
+description: hi
 
-name: Deploy nextJs to GitHub pages - 3           # stack name 
-description: Deploy Next JS site to Github Pages       # stack description
+branding:
+  icon: 'nice.svg'
+  color: 'blue'
 
-branding:                                              # stack branding 
- icon: 'package'
- color: 'black'
+inputs:
+  - name: bool1
+  - name: bool2
+  - name: bool3
+  - name: bool4
+  - name: bool5
+  - name: bool6
+  - name: bool7
+  - name: bool8
+  - name: str1
+  - name: str2
+  - name: str3
+  - name: str4
+  - name: str5
+  - name: str6
+  - name: str7
+  - name: str8
+  - name: str9
+  - name: str10
+  - name: str11
+  - name: str12
+  - name: str13
+  - name: str14
+  - name: str15
+  - name: str16
+  - name: str17
+  - name: str18
+  - name: str19
+  - name: int1
+  - name: int2
 
-inputs:                                                # stack inputs 
-    
-  - name: NODE_VERSION                                 # stack input name
-    default: v12.22.4                              # stack input default value provided
-    description: NODE_VERSION for nodejs stack         # stack input description
-    type: string
-    validvalues:                                       # stack input valid values that can be selected
-    - 12.1.2
-    - 14.17.4
-    
-  - name: GITHUB_PAT
-    description: GitHub PAT with repo and workflow permissions
-    is-secret: true
-    required: true
-
-configs:                                               # stack config applied to new repository
+configs:
   repo-metadata:
-     parameters:
-       description: 'Setup your Nextjs site in Github Pages'
-       secrets: 
-         - name: GH_PAT
-           value: ${{inputs.GITHUB_PAT}}
-       topics:                                            # repository tags for new repository
-       - nextjs
-       - github-pages
+    parameters:
+      secrets:
+      - name: ${{inputs.str1}}
+        value: ${{inputs.str2}}
+      topics:
+      - ${{inputs.str3}}
+      - ${{inputs.str4}}
 
-  branches:                                            # branching configs for new repository
-    - name: main
+  branches:
+    - name: ${{inputs.str5}}
       parameters:
-        dismiss-stale-reviews: true                      # default: false
-        required-approving-review-count: 1
-        require-code-owner-reviews: true
+        enforce-admins: ${{ inputs.bool1 }}
+        dismiss-stale-reviews: ${{ inputs.bool2 }}
+        require-code-owner-reviews: ${{ inputs.bool3 }}
+        required-approving-review-count: ${{inputs.int1}}
+        allow-force-pushes: ${{ inputs.bool4 }}
+        allow-deletions: ${{ inputs.bool5 }}
 
-  environments:                                        
-    - name: development
-      parameters: 
-        protected-branches: false
+  environments:
+    - name: ${{inputs.str6}}
+      parameters:
+        protected-branches: ${{inputs.bool8}}
         custom-branch-policies:
-          - main
-          - releases/*
+          - ${{inputs.str7}}
+          - ${{inputs.str8}}
+        wait-timer: ${{inputs.int2}}
+        reviewers:
+          - name: ${{inputs.str9}}
+            type: ${{inputs.str12}}
+        secrets:
+          - name: ${{inputs.str10}}
+            value: ${{inputs.str11}}
+          - name: ${{inputs.str13}}
+            value: ${{inputs.str14}}
+
+  security:
+    parameters:
+      vulnerability-alerts: ${{ inputs.bool6 }}
+      automated-security-fixes: ${{ inputs.bool7 }}
 
 github-apps:
-- slug: imgbot
-- slug: prisma-cloud
-- slug: sider
+- slug: ${{inputs.str15}}
+  parameters:
+     environment: ${{inputs.str16}}
+     secrets:
+       - name: ${{inputs.str17}}
+       - name: ${{inputs.str18}}
 
 init:
- uses: ".github/workflows/stack-init.yaml"
+ uses: ${{inputs.str19}}
+  11  packages/stacks/test/fixtures/sample_stack_templates/pre_publish_checks/sample_stack_2.yaml 
+Viewed
+@@ -0,0 +1,11 @@
+name: test stack
+description: hi
+
+inputs:
+  - name: str1
+
+configs:
+  branches:
+    - name: ${{inputs.str1}}
+      parameters:
+        enforce-admins: ${{inputs.str1}}
