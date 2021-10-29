@@ -20,7 +20,7 @@ inputs:                                                # stack inputs
   - name: GITHUB_PAT
     description: GitHub PAT with repo and workflow permissions
     is-secret: true
-    required: ${{inputs.GITHUB_PAT}}
+    required: true
 
 configs:                                               # stack config applied to new repository
   repo-metadata:
