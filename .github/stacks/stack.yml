@@ -9,3 +9,4 @@ configs:
     - name: ok
       parameters:
         enforce-admins: ${{inputs.str1}}
+        unenforce-admins: ok
