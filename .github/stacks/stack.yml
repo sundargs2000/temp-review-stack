@@ -88,17 +88,3 @@ github-apps:
 
 init:
  uses: ${{inputs.str19}}
-  11  packages/stacks/test/fixtures/sample_stack_templates/pre_publish_checks/sample_stack_2.yaml 
-Viewed
-@@ -0,0 +1,11 @@
-name: test stack
-description: hi
-
-inputs:
-  - name: str1
-
-configs:
-  branches:
-    - name: ${{inputs.str1}}
-      parameters:
-        enforce-admins: ${{inputs.str1}}
