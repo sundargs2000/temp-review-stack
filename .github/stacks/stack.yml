@@ -14,7 +14,7 @@ inputs:                                                # stack inputs
     description: NODE_VERSION for nodejs stack         # stack input description
     type: string
     validvalues:                                       # stack input valid values that can be selected
-    - 12
+    - 12.1.2
     - 14.17.4
     
   - name: GITHUB_PAT
