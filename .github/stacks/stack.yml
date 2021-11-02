@@ -9,3 +9,12 @@ branding:                                              # stack branding
 
 inputs:
  name: something
+
+configs:
+ configs:
+  # Meta data for creating the new repository
+  repo-metadata:
+    parameters:
+      topics:
+      - rails
+      - sql
