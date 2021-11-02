@@ -70,8 +70,8 @@ configs:
       parameters:
         enforce-admins: true
         dismiss-stale-reviews: true
-        require-code-owner-reviews: ${{ inputs.Reviewer_Count }}
-        required-approving-review-count: ${{ inputs.Reviewer_Count }}
+        require-code-owner-reviews: true
+        required-approving-review-count: ${{ inputs.Reviewer_Count1 }}
         allow-force-pushes: false
         allow-deletions: false
    
