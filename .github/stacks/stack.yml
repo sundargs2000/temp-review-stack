@@ -1,13 +1,144 @@
-version: 0.1.0                                            # stack schema version 0.1.0 (latest)
+name: rails-stack-template
+description: This is a stack for deploying a Rails Apps + MYSQL DB to Azure
+branding:
+  icon: 'Azure.svg'
+  color: 'blue'
 
-name: a simple test of stacks           # stack name 
-description: Deploy Next JS site to Github Pages       # stack description
-
-branding:                                              # stack branding 
- icon: 'package'
- color: 'black'
-
+#-------------------------------------------------------------
+# All values needed to be provided/verified by the user should be defined as inputs.
+# Values can be provided using a values file (yaml/json/.env format) or from the UX.
+# Default values are defined by stack authors using **default: <Value>**
+# All inputs defined here are optional unless they are marked **required: true**
+# All inputs will be of String type by default unless specified as **type:boolean**
+# All inputs will be considered as non-secrets unless specified as **is_secret:true**
+# All inputs will be available for scripts/workflows run as part of stack init
+# Any input that is not explicitly configured as Repo/Environment secret will NOT be available in the new stack
 inputs:
- - name: something
-   type: string
-   default: true
+  - name: Reviewer_Count
+    default: 2
+    description: Number of required reviewers for PR
+    validvalues: 
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+
+  - name: DEV_SPN_ID
+    description: SPN ID for Dev deployments
+    is-secret: true
+
+  - name: STAGING_SPN_ID
+    description: SPN ID for STAGING deployments
+    is-secret: true
+
+  - name: PROD_SPN_ID
+    description: SPN ID for Prod deployments
+    is-secret: true
+
+  - name: MYSQL_Connection_String
+    description: DB credentials
+    is-secret: true
+
+  - name: ProductionEnvReviewer
+    description: GitHub handle of the production environment reviewer
+
+  - name: Enable_Vulnerability_Alerts
+    description: Enable Vulnerability Alerts
+    type: boolean
+
+  - name: init_script_echo
+    default: "hello rails app"
+    description: this would be consumed by init script
+    required: false
+
+#-------------------------------------------------------------
+configs:
+  # Meta data for creating the new repository
+  repo-metadata:
+    parameters:
+      secrets: 
+      - name: DEV_SPN_ID
+        value: ${{inputs.DEV_SPN_ID}}
+      topics:
+      - rails
+      - sql
+      
+  # Branch Protection rules
+  branches:
+    - name: release_v? #branch name or pattern you want to protect
+      parameters:
+        enforce-admins: true
+        dismiss-stale-reviews: true
+        require-code-owner-reviews: true
+        required-approving-review-count: ${{ inputs.Reviewer_Count }}
+        allow-force-pushes: false
+        allow-deletions: false
+   
+    - name: dev_v? #branch name or pattern you want to protect
+      parameters:
+        enforce-admins: true
+        dismiss-stale-reviews: true
+        require-code-owner-reviews: true
+        required-approving-review-count: ${{ inputs.Reviewer_Count }}
+        allow-force-pushes: false
+        allow-deletions: false
+  
+  # Environments & Secrets
+  environments: 
+    - name: staging
+      parameters: 
+        protected-branches: false
+        allowed-branch-rules:
+          - main/*
+          - releases/*
+        wait-timer: 50
+        reviewers:
+          - name: ${{ inputs.ProductionEnvReviewer }}
+            type: User
+        secrets:
+          - name: Azure_SPN_ID
+            value: ${{inputs.STAGING_SPN_ID}}
+          - name: MYSQL_Connection_String
+            value: ${{inputs.MYSQL_Connection_String}}
+
+    - name: production
+      parameters: 
+        protected-branches: true
+        wait-timer: 30
+        reviewers:
+        - name: ${{ inputs.ProductionEnvReviewer }}
+          type: User
+        secrets:
+          - name: Azure_SPN_ID
+            value: ${{inputs.PROD_SPN_ID}}
+          - name: MYSQL_Connection_String
+            value: ${{inputs.MYSQL_Connection_String}}
+
+  # Security and configuration settings to be enabled/disabled
+  security:
+    parameters: 
+      vulnerability-alerts: ${{inputs.Enable_Vulnerability_Alerts}}
+      automated-security-fixes: true
+
+
+#-------------------------------------------------------------
+# GitHub Apps to be installed
+github-apps:
+- slug: azure
+  parameters:
+     environment: production
+     secrets:
+       - name: Azure_SPN_ID
+       - name: Azure_Tenant_ID
+- slug: codetree
+- slug: greenkeeper
+
+
+#-------------------------------------------------------------
+# Initialization workflow to run
+# This workflow file will NOT be part of the stack (new repo created). 
+# workflow could use the stack inputs using the notation : ${{ github.event.inputs.name }}
+init:
+ uses: ".github/workflows/setup.yml"
+ 
