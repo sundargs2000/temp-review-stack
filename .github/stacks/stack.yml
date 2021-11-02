@@ -43,7 +43,7 @@ configs:                                               # stack config applied to
     - name: development
       parameters: 
         protected-branches: false
-        allowed-branch-rules:
+        custom-branch-policies:
           - main
           - releases/*
 
