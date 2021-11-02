@@ -47,10 +47,3 @@ configs:                                               # stack config applied to
           - main
           - releases/*
 
-github-apps:
-- slug: imgbot
-- slug: prisma-cloud
-- slug: sider
-
-init:
- uses: ".github/workflows/stack-init.yaml"
