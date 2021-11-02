@@ -8,13 +8,4 @@ branding:                                              # stack branding
  color: 'black'
 
 inputs:
- name: something
-
-configs:
- configs:
-  # Meta data for creating the new repository
-  repo-metadata:
-    parameters:
-      topics:
-      - rails
-      - sql
+ - name: something
