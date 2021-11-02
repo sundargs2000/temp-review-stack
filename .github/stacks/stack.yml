@@ -6,5 +6,3 @@ description: Deploy Next JS site to Github Pages       # stack description
 branding:                                              # stack branding 
  icon: 'package'
  color: 'black'
-
-monke::ok:
