@@ -9,5 +9,5 @@ branding:                                              # stack branding
 
 inputs:
  - name: something
-
-kok
+   type: string
+   default: true
